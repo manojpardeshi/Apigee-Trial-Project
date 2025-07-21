@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsp:Policy xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"
+            xmlns:L7p="http://www.layer7tech.com/ws/policy">
+  <wsp:All>
+    <L7p:HttpRoutingAssertion>
+      <L7p:ProtectedServiceUrl stringValue="https://api.backend.example.com"/>
+      <L7p:HttpMethod stringValue="*"/>
+      <L7p:FailOnErrorStatus booleanValue="true"/>
+      <L7p:RequestHeaderRules httpPassthroughRuleSet="included">
+        <L7p:Rules httpPassthroughRules="included">
+          <L7p:item httpPassthroughRule="included">
+            <L7p:Name stringValue="*"/>
+            <L7p:UseName booleanValue="true"/>
+          </L7p:item>
+        </L7p:Rules>
+      </L7p:RequestHeaderRules>
+      <L7p:ResponseHeaderRules httpPassthroughRuleSet="included">
+        <L7p:Rules httpPassthroughRules="included">
+          <L7p:item httpPassthroughRule="included">
+            <L7p:Name stringValue="*"/>
+            <L7p:UseName booleanValue="true"/>
+          </L7p:item>
+        </L7p:Rules>
+      </L7p:ResponseHeaderRules>
+      <L7p:RequestParamRules httpPassthroughRuleSet="included">
+        <L7p:Rules httpPassthroughRules="included">
+          <L7p:item httpPassthroughRule="included">
+            <L7p:Name stringValue="*"/>
+            <L7p:UseName booleanValue="true"/>
+          </L7p:item>
+        </L7p:Rules>
+      </L7p:RequestParamRules>
+    </L7p:HttpRoutingAssertion>
+  </wsp:All>
+</wsp:Policy>

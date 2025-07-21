@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsp:Policy xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"
+            xmlns:L7p="http://www.layer7tech.com/ws/policy"
+            xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+  <wsp:All>
+    <L7p:HttpBasicAuthentication>
+      <L7p:Realm stringValue="REST API Gateway"/>
+      <L7p:CredentialSource stringValue="request.http.authheader"/>
+      <L7p:UserStore stringValue="Internal Identity Provider"/>
+      <L7p:RequireSSL booleanValue="true"/>
+      <L7p:FailIfNoCredentials booleanValue="true"/>
+    </L7p:HttpBasicAuthentication>
+  </wsp:All>
+</wsp:Policy>

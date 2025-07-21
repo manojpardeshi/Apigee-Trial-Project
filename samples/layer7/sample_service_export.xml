@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<exp:Export xmlns:exp="http://www.layer7tech.com/ws/policy/export"
+            xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"
+            xmlns:L7p="http://www.layer7tech.com/ws/policy">
+  <exp:References>
+    <ServiceDocument>
+      <Service id="rest-api-service-001">
+        <Name>Customer REST API</Name>
+        <ResolutionPath>/api/v1/customers/*</ResolutionPath>
+        <HttpMethods>GET,POST,PUT,DELETE</HttpMethods>
+        <Enabled>true</Enabled>
+        <Soap>false</Soap>
+        <Internal>false</Internal>
+        <ServicePolicy>
+          <wsp:Policy>
+            <wsp:All>
+              <!-- Basic Authentication Policy -->
+              <L7p:HttpBasicAuthentication>
+                <L7p:Realm stringValue="Customer API"/>
+                <L7p:CredentialSource stringValue="request.http.authheader"/>
+                <L7p:UserStore stringValue="Internal Identity Provider"/>
+                <L7p:RequireSSL booleanValue="true"/>
+              </L7p:HttpBasicAuthentication>
+              
+              <!-- Routing Policy -->
+              <L7p:HttpRoutingAssertion>
+                <L7p:ProtectedServiceUrl stringValue="https://backend.customer-service.com/api/v1"/>
+                <L7p:HttpMethod stringValue="*"/>
+                <L7p:RequestHeaderRules httpPassthroughRuleSet="included">
+                  <L7p:Rules httpPassthroughRules="included">
+                    <L7p:item httpPassthroughRule="included">
+                      <L7p:Name stringValue="*"/>
+                    </L7p:item>
+                  </L7p:Rules>
+                </L7p:RequestHeaderRules>
+              </L7p:HttpRoutingAssertion>
+            </wsp:All>
+          </wsp:Policy>
+        </ServicePolicy>
+      </Service>
+    </ServiceDocument>
+    
+    <ServiceDocument>
+      <Service id="rest-api-service-002">
+        <Name>Order REST API</Name>
+        <ResolutionPath>/api/v1/orders/*</ResolutionPath>
+        <HttpMethods>GET,POST,PUT,DELETE</HttpMethods>
+        <Enabled>true</Enabled>
+        <Soap>false</Soap>
+        <Internal>false</Internal>
+        <ServicePolicy>
+          <wsp:Policy>
+            <wsp:All>
+              <!-- Basic Authentication Policy -->
+              <L7p:HttpBasicAuthentication>
+                <L7p:Realm stringValue="Order API"/>
+                <L7p:CredentialSource stringValue="request.http.authheader"/>
+                <L7p:UserStore stringValue="Internal Identity Provider"/>
+                <L7p:RequireSSL booleanValue="false"/>
+              </L7p:HttpBasicAuthentication>
+              
+              <!-- Routing Policy -->
+              <L7p:HttpRoutingAssertion>
+                <L7p:ProtectedServiceUrl stringValue="https://backend.order-service.com"/>
+                <L7p:HttpMethod stringValue="*"/>
+                <L7p:FailOnErrorStatus booleanValue="true"/>
+              </L7p:HttpRoutingAssertion>
+            </wsp:All>
+          </wsp:Policy>
+        </ServicePolicy>
+      </Service>
+    </ServiceDocument>
+  </exp:References>
+</exp:Export>
