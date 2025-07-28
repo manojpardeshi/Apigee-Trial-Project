@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<BasicAuthentication async="false" continueOnError="false" enabled="true" name="BasicAuth-1">
+    <DisplayName>Layer 7 Basic Authentication</DisplayName>
+    <Properties>
+        <Property name="migration.source">Layer 7 Authentication Assertion</Property>
+        <Property name="migration.confidence">95%</Property>
+    </Properties>
+    <Operation>Decode</Operation>
+    <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+    <User ref="request.header.authorization.username"/>
+    <Password ref="request.header.authorization.password"/>
+    <AssignTo ref="basic.auth.credentials"/>
+</BasicAuthentication>

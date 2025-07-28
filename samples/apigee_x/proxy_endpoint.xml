@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ProxyEndpoint name="default">
+    <DisplayName>Layer 7 Service Migration</DisplayName>
+    <Description>Migrated from Layer 7 v11.1 service</Description>
+    
+    <PreFlow name="PreFlow">
+        <Request>
+            <!-- Authentication first -->
+            <Step>
+                <Name>BasicAuth-1</Name>
+                <Condition>request.header.authorization != null</Condition>
+            </Step>
+            <!-- Request validation -->
+            <Step>
+                <Name>Validate-Request</Name>
+            </Step>
+        </Request>
+        <Response/>
+    </PreFlow>
+    
+    <Flows>
+        <!-- Conditional flow example -->
+        <Flow name="GetWeatherData">
+            <Description>Handle weather data requests</Description>
+            <Request>
+                <Step>
+                    <Name>Set-Weather-Headers</Name>
+                </Step>
+            </Request>
+            <Response>
+                <Step>
+                    <Name>Transform-Weather-Response</Name>
+                </Step>
+            </Response>
+            <Condition>request.verb = "GET" AND proxy.pathsuffix MatchesPath "/weather/*"</Condition>
+        </Flow>
+    </Flows>
+    
+    <PostFlow name="PostFlow">
+        <Request/>
+        <Response>
+            <Step>
+                <Name>Add-CORS-Headers</Name>
+            </Step>
+        </Response>
+    </PostFlow>
+    
+    <HTTPProxyConnection>
+        <BasePath>/layer7-service/v1</BasePath>
+        <Properties>
+            <Property name="migration.original.basepath">/WeatherService</Property>
+        </Properties>
+        <VirtualHost>default</VirtualHost>
+        <VirtualHost>secure</VirtualHost>
+    </HTTPProxyConnection>
+    
+    <RouteRule name="backend-route">
+        <TargetEndpoint>backend-target</TargetEndpoint>
+    </RouteRule>
+    
+    <FaultRules>
+        <FaultRule name="AuthenticationFailure">
+            <Condition>basicauthentication.BasicAuth-1.failed = true</Condition>
+            <Step>
+                <Name>Return-401-Unauthorized</Name>
+            </Step>
+        </FaultRule>
+    </FaultRules>
+    
+    <DefaultFaultRule>
+        <Step>
+            <Name>Return-Generic-Error</Name>
+        </Step>
+    </DefaultFaultRule>
+</ProxyEndpoint>

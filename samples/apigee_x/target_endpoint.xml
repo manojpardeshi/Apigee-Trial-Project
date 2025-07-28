@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<TargetEndpoint name="backend-target">
+    <DisplayName>Layer 7 Backend Target</DisplayName>
+    <Description>Target endpoint migrated from Layer 7 HttpRoutingAssertion</Description>
+    
+    <PreFlow name="PreFlow">
+        <Request>
+            <Step>
+                <Name>Set-Backend-Headers</Name>
+            </Step>
+        </Request>
+        <Response/>
+    </PreFlow>
+    
+    <Flows/>
+    
+    <PostFlow name="PostFlow">
+        <Request/>
+        <Response>
+            <Step>
+                <Name>Log-Backend-Response</Name>
+            </Step>
+        </Response>
+    </PostFlow>
+    
+    <HTTPTargetConnection>
+        <Properties>
+            <Property name="migration.original.url">http://backend.layer7.com/api</Property>
+            <Property name="request.streaming.enabled">false</Property>
+            <Property name="response.streaming.enabled">false</Property>
+        </Properties>
+        <URL>http://backend.example.com/api/v1</URL>
+        
+        <!-- TLS/SSL configuration if needed -->
+        <SSLInfo>
+            <Enabled>false</Enabled>
+        </SSLInfo>
+        
+        <!-- Timeout settings -->
+        <ConnectionTimeoutInMillis>30000</ConnectionTimeoutInMillis>
+        <IOTimeoutInMillis>60000</IOTimeoutInMillis>
+    </HTTPTargetConnection>
+    
+    <FaultRules>
+        <FaultRule name="TargetConnectionError">
+            <Condition>fault.name = "ConnectionTimeout" OR fault.name = "IOTimeout"</Condition>
+            <Step>
+                <Name>Handle-Backend-Timeout</Name>
+            </Step>
+        </FaultRule>
+    </FaultRules>
+    
+    <DefaultFaultRule>
+        <Step>
+            <Name>Handle-Backend-Error</Name>
+        </Step>
+    </DefaultFaultRule>
+</TargetEndpoint>
