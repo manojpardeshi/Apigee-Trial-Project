@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<TargetEndpoint name="backend-target">
-    <DisplayName>Layer 7 Backend Target</DisplayName>
-    <Description>Target endpoint migrated from Layer 7 HttpRoutingAssertion</Description>
+<TargetEndpoint name="weather-api-target">
+    <DisplayName>Weather API Backend Target</DisplayName>
+    <Description>Target endpoint migrated from Layer 7 HttpRoutingAssertion - Weather Service</Description>
     
     <PreFlow name="PreFlow">
         <Request>
@@ -25,15 +25,16 @@
     
     <HTTPTargetConnection>
         <Properties>
-            <Property name="migration.original.url">http://backend.layer7.com/api</Property>
+            <Property name="migration.original.url">http://weather.layer7.com/api</Property>
             <Property name="request.streaming.enabled">false</Property>
             <Property name="response.streaming.enabled">false</Property>
         </Properties>
-        <URL>http://backend.example.com/api/v1</URL>
+        <URL>https://api.openweathermap.org/data/2.5</URL>
         
-        <!-- TLS/SSL configuration if needed -->
+        <!-- TLS/SSL configuration for HTTPS weather API -->
         <SSLInfo>
-            <Enabled>false</Enabled>
+            <Enabled>true</Enabled>
+            <Enforce>true</Enforce>
         </SSLInfo>
         
         <!-- Timeout settings -->

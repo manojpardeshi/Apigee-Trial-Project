@@ -46,7 +46,7 @@
     </PostFlow>
     
     <HTTPProxyConnection>
-        <BasePath>/layer7-service/v1</BasePath>
+        <BasePath>/weather-service/v1</BasePath>
         <Properties>
             <Property name="migration.original.basepath">/WeatherService</Property>
         </Properties>
@@ -54,8 +54,8 @@
         <VirtualHost>secure</VirtualHost>
     </HTTPProxyConnection>
     
-    <RouteRule name="backend-route">
-        <TargetEndpoint>backend-target</TargetEndpoint>
+    <RouteRule name="weather-api-route">
+        <TargetEndpoint>weather-api-target</TargetEndpoint>
     </RouteRule>
     
     <FaultRules>

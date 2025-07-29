@@ -3,7 +3,7 @@
             xmlns:L7p="http://www.layer7tech.com/ws/policy">
   <wsp:All>
     <L7p:HttpRoutingAssertion>
-      <L7p:ProtectedServiceUrl stringValue="https://api.backend.example.com"/>
+      <L7p:ProtectedServiceUrl stringValue="https://api.openweathermap.org/data/2.5"/>
       <L7p:HttpMethod stringValue="*"/>
       <L7p:FailOnErrorStatus booleanValue="true"/>
       <L7p:RequestHeaderRules httpPassthroughRuleSet="included">
